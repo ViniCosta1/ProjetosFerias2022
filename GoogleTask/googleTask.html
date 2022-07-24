@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vincius' Todo's List</title>
+    </head>
+    <body>
+        <h1>Vinicius Google Todo's List</h1>
+        <h3>Esse é um app para fazer uma lista de fazeres</h3>
+        <div id="lista">
+            <div id="titulo">
+                Adicione Seu Item
+                <button id="adicionar" onclick="addItem();">Adicionar</button>
+            </div>
+            <br />
+            <div id="itens"></div>
+            <div>
+                <input type="text" name="add-item" id="add-item" />
+            </div>
+        </div>
+
+        <script>
+            // Botão Adicionar
+            var itens = [];
+            var idTag = 0;
+            var input = document.getElementById('add-item');
+
+            // Quando apertar 'Enter'
+            input.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    addItem();
+                    input.value = '';
+                }
+            });
+
+            // Função Adicionar Item
+            function addItem() {
+                let item = document.getElementById('add-item').value;
+                if (item == '') {
+                    return;
+                }
+                item += ' ';
+                itens.push(item);
+
+                // Adicionando elementos e ID's
+                var element = document.createElement('li');
+                element.id = idTag;
+                var deleteButton = document.createElement('button');
+                deleteButton.innerHTML = 'Deletar';
+                deleteButton.id = idTag;
+                idTag += 1;
+                deleteButton.setAttribute(
+                    'onclick',
+                    'deletarTarefa(' + deleteButton.id + ')'
+                );
+                deleteButton.setAttribute('class', 'btn-del');
+
+                // Colocando elementos na div
+                var node = document.createTextNode(itens[itens.length - 1]);
+                element.appendChild(node);
+                element.appendChild(deleteButton);
+                document.getElementById('itens').appendChild(element);
+            }
+
+            // Deletar Tarefa
+            function deletarTarefa(idButton) {
+                let parent = document.getElementById('itens');
+                let tagsDeletadas = parent.removeChild(
+                    document.getElementById(idButton)
+                );
+            }
+        </script>
+    </body>
+</html>
